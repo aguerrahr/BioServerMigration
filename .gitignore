@@ -1,0 +1,49 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.tmp
+*.temp
+
+# Visual Studio
+.vs/
+.vscode/
+*.sln.ide/
+*.sln.docstates
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+
+# NuGet packages
+packages/
+*.nupkg
+
+# Logs
+logs/
+*.log
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Publish profiles
+*.pubxml.user
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# DLLs de VB6 (no subir al repositorio)
+*.dll
+!*.dll
