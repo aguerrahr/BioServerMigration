@@ -81,9 +81,9 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
-        app.UseCors("AllowAll");
-        app.UseAuthorization();
+        app.UseCors("AllowAll");        
         app.UseRouting();
+        app.UseAuthorization();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

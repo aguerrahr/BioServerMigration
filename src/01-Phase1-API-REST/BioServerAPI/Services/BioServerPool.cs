@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.Versioning;
 
 namespace BioServerAPI.Services;
 
@@ -8,10 +9,10 @@ public class BioServerPool : IDisposable
     private readonly SemaphoreSlim _semaphore;
     private readonly int _maxInstances;
     private int _currentCount = 0;
-    private readonly ILogger<BioServerPool> _logger;
+    private readonly ILogger<BioServerPool>? _logger;
     private bool _disposed;
 
-    public BioServerPool(int maxInstances = 10, ILogger<BioServerPool> logger = null)
+    public BioServerPool(int maxInstances = 10, ILogger<BioServerPool>? logger = null) // Añadir "?" al tipo
     {
         _maxInstances = maxInstances;
         _semaphore = new SemaphoreSlim(maxInstances, maxInstances);
@@ -28,7 +29,9 @@ public class BioServerPool : IDisposable
         {
             try
             {
+                #pragma warning disable CA1416
                 var instance = await CreateInstanceAsync();
+                #pragma warning restore CA1416
                 _instances.Add(instance);
                 _logger?.LogDebug("Instancia inicial #{InstanceId} creada", i + 1);
             }
@@ -41,7 +44,7 @@ public class BioServerPool : IDisposable
         _logger?.LogInformation("Pool inicializado con {InstanceCount} instancias", _instances.Count);
     }
 
-    public async Task<BioServerWrapper> GetInstanceAsync(CancellationToken cancellationToken = default)
+    public async Task<BioServerWrapper?> GetInstanceAsync(CancellationToken cancellationToken = default) 
     {
         _logger?.LogDebug("Solicitando instancia de BioServer. Instancias activas: {CurrentCount}, Disponibles: {AvailableCount}", 
             _currentCount, _instances.Count);
@@ -68,7 +71,9 @@ public class BioServerPool : IDisposable
                 _currentCount, _maxInstances);
             try
             {
+                #pragma warning disable CA1416
                 var newInstance = await CreateInstanceAsync();
+                #pragma warning restore CA1416
                 return newInstance;
             }
             catch
@@ -100,7 +105,8 @@ public class BioServerPool : IDisposable
         _logger?.LogDebug("Instancia devuelta al pool. Disponibles: {AvailableCount}/{MaxInstances}",
             _instances.Count, _maxInstances);
     }
-
+    
+    [SupportedOSPlatform("windows")]
     private async Task<BioServerWrapper> CreateInstanceAsync()
     {
         // Crear la instancia en un hilo STA (requerido para VB6)
