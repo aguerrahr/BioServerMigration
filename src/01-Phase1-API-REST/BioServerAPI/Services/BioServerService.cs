@@ -83,8 +83,9 @@ public class BioServerService : IDisposable
 
     // ============================================================
     // MÉTODOS PRINCIPALES (Async)
-    // ============================================================
-
+    // ============================================================        
+    // Cada método llama a ExecuteWrapperAsync para manejar la lógica común
+    // y evitar duplicación de código y advertencias de nullable.
     public async Task<string> SendToServerAsync(string id, string secret, string payload)
         => await ExecuteWrapperAsync(id, secret, payload,
             (wrapper, idParam, secretParam, payloadParam) =>

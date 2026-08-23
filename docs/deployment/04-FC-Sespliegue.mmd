@@ -1,0 +1,14 @@
+graph TD
+    A[Inicio] --> B{Preparación del Servidor}
+    B --> C[Ejecutar Setup-Server.ps1]
+    C --> D[Servidor listo]
+    
+    D --> E{Generación del Paquete}
+    E --> F[Ejecutar Build-DeploymentPackage.ps1]
+    F --> G[Se genera BioServerAPI.zip]
+    
+    G --> H{Despliegue en Servidor}
+    H --> I[Copiar BioServerAPI.zip y Deploy-BioServerAPI.ps1 al servidor]
+    I --> J[Ejecutar Deploy-BioServerAPI.ps1]
+    J --> K[API REST desplegado y funcionando]
+    
